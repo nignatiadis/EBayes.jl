@@ -1,0 +1,10 @@
+name = "EBayes"
+uuid = "bad9efff-1a8e-41fb-9e7d-5d6f530fb0a3"
+authors = ["Nikos Ignatiadis <nikos.ignatiadis01@gmail.com>"]
+version = "0.1.0"
+
+[deps]
+Distributions = "31c24e10-a181-5473-b8eb-7969acd0382f"
+Reexport = "189a3867-3050-52da-a836-e630ba90ab69"
+StatsBase = "2913bbd2-ae8a-5f71-8c99-4fb6c76f3a91"
+StructArrays = "09ab397b-f2b6-538f-b94a-2f83cf4a842a"
