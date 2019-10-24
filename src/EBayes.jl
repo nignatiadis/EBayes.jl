@@ -15,8 +15,14 @@ import Base: iterate,
              lastindex,
              eltype
 
+import StatsBase:predict,
+                 fit,
+                 dof,
+                 leverage
 
+include("ebayes_types.jl")
 include("ebayes_samples.jl")
+include("sure.jl")
 include("simulations.jl")
 
 export EBayesSample,

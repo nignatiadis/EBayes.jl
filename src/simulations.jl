@@ -2,8 +2,8 @@
 abstract type EBayesSimulation end
 
 
-struct NormalEBayesSimulationResult{Sim<:EBayesSimulation, SS<:NormalSamples}
-    ss::SS
+struct NormalEBayesSimulationResult{Sim<:EBayesSimulation, NS<:NormalSamples}
+    ss::NS
     true_μs::Vector{Float64}
     sim::Sim
 end
@@ -128,3 +128,43 @@ function rand(x::XieKouBrownExample6)
 end
 
 
+
+#-----------------------------------------
+# Simulations with covariates
+#-----------------------------------------
+
+struct CovariateNormalEBayesSimulationResult{Sim<:EBayesSimulation,
+                                    Tbl,
+                                    NS<:NormalSamples}
+    ss::NS
+    X::Tbl
+    true_ms::Vector{Float64}
+    true_μs::Vector{Float64}
+    sim::Sim
+end
+
+function NormalSamples(nsim::CovariateNormalEBayesSimulationResult)
+   nsim.ss
+end
+
+
+struct FriedmanFayHerriotSimulation{T<:Number} <: EBayesSimulation
+    n::Int
+    p::Int
+    A_sqrt::T
+    σ::T
+end
+
+friedman_reg(x) = 10*sin(π*x[1]*x[2]) + 20*(x[3] - 1/2)^2 + 10*x[4] +5*x[5]
+
+function rand(sim::FriedmanFayHerriotSimulation)
+   p = sim.p
+   n = sim.n
+   σ = sim.σ
+   A_sqrt = sim.A_sqrt
+   X = DataFrame(rand(Uniform(0,1), n, p))
+   ms = map(friedman_reg, eachrow(X))
+   μs = ms .+ rand(Normal(0, A_sqrt), n)
+   Zs = μs .+ rand(Normal(0, σ), n)
+   CovariateNormalEBayesSimulationResult(NormalSamples(Zs,fill(σ, n)), X, ms, μs, sim)
+end
