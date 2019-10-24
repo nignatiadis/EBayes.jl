@@ -14,7 +14,11 @@ end
 
 NormalSample(Z::Number, σ::Number) = NormalSample(promote(Z, σ)...)
 
+response(s::NormalSample) = s.Z
+Statistics.var(s::NormalSample) = s.σ^2
 
+eltype(s::NormalSample{T}) where T = T
+zero(s::NormalSample{T}) where T = zero(T)
 #---------------------------------------
 # types for a single EB sample
 #---------------------------------------
@@ -26,6 +30,7 @@ function NormalSamples(Zs::AbstractVector{T}, σs::AbstractVector{T}) where T
     NormalSamples{T}((Zs, σs))
 end
 
-
+response(ss::NormalSamples) = ss.Z
+zeros(ss::NormalSamples) = zeros(eltype(response(ss)), length(ss))
 
 

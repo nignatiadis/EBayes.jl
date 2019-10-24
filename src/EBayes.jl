@@ -13,16 +13,29 @@ import Base: iterate,
              getindex,
              firstindex,
              lastindex,
-             eltype
+             eltype,
+             zero,
+             zeros
 
 import StatsBase:predict,
                  fit,
                  dof,
                  leverage
 
+import StatsBase:response
+
+using Statistics
+import Statistics:var
+
+import Distributions:location
+
+using MLJBase
+import MLJBase: fitted_params
+
 include("ebayes_types.jl")
 include("ebayes_samples.jl")
-include("sure.jl")
+include("predict.jl")
+#include("sure.jl")
 include("simulations.jl")
 
 export EBayesSample,
@@ -30,6 +43,7 @@ export EBayesSample,
        EBayesSamples,
        AbstractNormalSamples,
        NormalSamples,
-       NormalEBayesSimulationResult
+       NormalEBayesSimulationResult,
+       var #reexport
 
 end # module
