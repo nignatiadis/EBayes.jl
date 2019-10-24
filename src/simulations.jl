@@ -15,6 +15,33 @@ end
 #predict(method, sim_res::NormalEBayesSimulationResult) = predict(method, sim_res.ss)
 
 
+struct NormalNormalSimulation
+   n::Int64
+   prior_μ::Float64
+   A::Float64
+   σ::Float64
+end
+
+function NormalNormalSimulation(;n=1000,
+                                 prior_μ=0.0,
+                                 A=1.0,
+                                 σ)
+   NormalNormalSimulation(n, prior_μ, A, σ)
+end
+
+
+function rand(x::NormalNormalSimulation)
+   n = x.n
+   A = x.A
+   σ = x.σ
+   prior_μ = x.prior_μ
+
+   μs = randn(n).*sqrt(A) .+ prior
+   Zs = randn(n).*σ .+ μs
+   σs = repeat([σ], n)
+
+   NormalEBayesSimulationResult(NormalSamples(Zs,σs), μs, x)
+end
 #----------------------------------------------------------------------
 # Xie-Kou-Brown 2012 include 6 examples for their simulation benchmark
 #----------------------------------------------------------------------

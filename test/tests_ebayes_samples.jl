@@ -16,8 +16,16 @@ nss = StructArray([ns; ns2])
 @test isa(nss, NormalSamples)
 @test isa(nss, NormalSamples{Float64})
 
+
+@test isa(nss, EBayesSamples)
+@test isa(nss, AbstractNormalSamples)
+@test AbstractNormalSamples <: EBayesSamples
+@test NormalSamples{Float64} <: EBayesSamples
+
 nss2 = NormalSamples(nss.Z,nss.σ)
 @test isa(nss2, NormalSamples)
+
+nss3 = NormalSamples(nss.Z, 1)
 
 Random.seed!(0)
 sim1 = rand(EBayes.XieKouBrownExample1(1000))
