@@ -8,7 +8,7 @@
 
 A Julia package for empirical Bayes estimation. See the [documentation](https://nignatiadis.github.io/EBayes.jl/dev) for instructions on how to use it.
 
-The package implements the empirical Bayes cross-fit method [1], which estimates effect sizes of many experiments by optimally synthesizing experimental data and rich covariate information. Furthermore, the method may leverage any black-box predictive model: [1] provide theoretical guarantees that hold for *any* regression method and the implementation allows usage of any supervised model that has implemented the [MLJ.jl](https://github.com/alan-turing-institute/MLJ.jl) interface.
+The package implements the empirical Bayes cross-fit method [1], which estimates effect sizes of many experiments by optimally synthesizing experimental data and rich covariate information. Furthermore, the method may leverage any black-box predictive model: [1] provides theoretical guarantees that hold for *any* regression method and the package here allows usage of any supervised model that has implemented the [MLJ.jl](https://github.com/alan-turing-institute/MLJ.jl) interface.
 
 # References
 
