@@ -45,7 +45,11 @@ function fit(ebcf::EBayesCrossFit, Xs, ss::NormalSamples; verbosity=0)
 
     for (train_idx, test_idx) in kf
         fit!(mlj_mach, rows=train_idx, verbosity=verbosity)
-        μs_pred = predict_mean(mlj_mach, rows=test_idx)
+        if isa(ebcf.model, MLJBase.Deterministic)
+            μs_pred = predict(mlj_mach, rows=test_idx)
+        else
+            μs_pred = predict_mean(mlj_mach, rows=test_idx)
+        end
         eb_fit = fit(Normal(), SURE(), FixedLocation(μs_pred), ss[test_idx])
         push!(eb_fits, eb_fit)
 
