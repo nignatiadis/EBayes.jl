@@ -29,9 +29,9 @@ import Statistics:var
 
 import Distributions:location
 
-using MLJBase
-import MLJBase: fitted_params
-
+import MLJBase, MLJ # to avoid conflicts
+import MLJBase:predict_mean
+import MLDataPattern:kfolds,FoldsView
 using NLSolversBase
 using Optim
 
@@ -40,6 +40,7 @@ include("ebayes_samples.jl")
 include("predict.jl")
 include("shrinkage_locations.jl")
 include("sure.jl")
+include("ebcf.jl")
 include("simulations.jl")
 
 export EBayesSample,
@@ -48,9 +49,11 @@ export EBayesSample,
        AbstractNormalSamples,
        NormalSamples,
        NormalEBayesSimulationResult,
-       var, #reexport
+       var, #reexport from Statistics
+       predict_mean, #reexport from MLJBase
        FixedLocation,
        GrandMeanLocation,
-       SURE
+       SURE,
+       EBayesCrossFit
 
 end # module

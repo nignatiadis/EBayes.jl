@@ -49,6 +49,28 @@ function leverage(loc::GrandMeanLocation, fitted_loc, ss)
 end
 
 
+#----------------------------------------------------------
+#  RegressionLocation
+#----------------------------------------------------------
+
+#struct RegressionLocation{TS, MT <: Supervised} <: EBayesShrinkageLocation
+#    offset::TS
+#    model::MT
+#end
+
+#RegressionLocation(model; offset=0.0) = FixedLocation(offset, model)
+
+#fit(fixed_loc::FixedLocation, ss) = nothing
+
+#function predict(fixed_loc::FixedLocation, ss::NormalSamples)
+#    zeros(ss) .+ fixed_loc.offset
+#end
+
+# fitted_loc will be nothing
+#function predict(fixed_loc::FixedLocation, fitted_loc, ss::NormalSamples)
+#    predict(fixed_loc, ss)
+#end
+
 # GrandMeanLocation(μs) = GrandMeanLocation(μs, nothing)
 # GrandMeanLocation() = GrandMeanLocation(0.0)
 # GrandMeanLocation(::Type{AnalyticWeights}) = GrandMeanLocation(0.0, AnalyticWeights)
