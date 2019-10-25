@@ -1,2 +1,2 @@
-include("test_ebayes_samples.jl")
-include("test_sure.jl")
+include("tests_ebayes_samples.jl")
+include("tests_sure.jl")
