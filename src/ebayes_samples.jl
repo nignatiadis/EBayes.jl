@@ -3,6 +3,21 @@
 #---------------------------------------
 abstract type EBayesSample{T<:Number} end
 
+"""
+    NormalSample(Z,σ)
+
+A observed sample ``Z`` drawn from a Normal distribution with known variance ``\\sigma^2 > 0``.
+
+```math
+Z \\sim \\mathcal{N}(\\mu, \\sigma^2)
+```
+
+``\\mu`` is assumed unknown. The type above is used when the sample ``Z`` is to be used for estimation or inference of ``\\mu``.
+
+```julia
+NormalSample(0.5, 1.0)          #Z=0.5, σ=1
+```
+"""
 struct NormalSample{T <: Number} <: EBayesSample{T}
     Z::T
     σ::T
