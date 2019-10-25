@@ -33,9 +33,19 @@ using StatsBase
 mean( (μs - Zs).^2 )
 ```
 
-Instead let us use the SURE method of [Xie, Kou, and Brown (2012)](https://doi.org/10.1080/01621459.2012.728154):
+Instead let us use the Normal SURE method of [Xie, Kou, and Brown (2012)](https://doi.org/10.1080/01621459.2012.728154), which has been implemented in this package. To do this, we will first need to wrap the `Zs` and `σs` as `NormalSamples`.
+
+```@example normal_normal
+using EBayes
+ss = NormalSamples(Zs, σs)
+sure_fit = fit(Normal(), SURE(), ss)
+sure_pred = predict(sure_fit)
+
+mean( (μs - sure_pred).^2 )
+```
 
 ## EB CrossFit estimator
+
 
 ## Empirical Bayes sample types
 

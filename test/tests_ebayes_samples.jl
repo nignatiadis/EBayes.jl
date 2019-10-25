@@ -20,7 +20,6 @@ nss = StructArray([ns; ns2])
 @test isa(nss, NormalSamples)
 @test isa(nss, NormalSamples{Float64})
 
-
 @test isa(nss, EBayesSamples)
 @test isa(nss, AbstractNormalSamples)
 @test AbstractNormalSamples <: EBayesSamples
@@ -31,6 +30,7 @@ nss2 = NormalSamples(nss.Z,nss.σ)
 
 @test response(nss) == response.(nss)
 @test zeros(nss) == zeros(Float64, 2)
+@test length(nss) == 2
 
 
 ## test predictions

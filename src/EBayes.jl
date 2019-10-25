@@ -50,6 +50,7 @@ export EBayesSample,
        NormalEBayesSimulationResult,
        var, #reexport
        FixedLocation,
+       GrandMeanLocation,
        SURE
 
 end # module

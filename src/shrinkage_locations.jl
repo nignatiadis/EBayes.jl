@@ -1,5 +1,10 @@
 abstract type EBayesShrinkageLocation end
 
+
+#-----------------------------------------------
+# FixedLocation
+#-----------------------------------------------
+
 struct FixedLocation{TS} <: EBayesShrinkageLocation
     offset::TS
 end
@@ -19,6 +24,53 @@ end
 function leverage(fixed_loc::FixedLocation, fitted_loc, ss)
     zero(eltype(response(ss)))
 end
+
+
+#-----------------------------------------------
+# GrandMeanLocation
+#-----------------------------------------------
+
+
+struct GrandMeanLocation{TS} <: EBayesShrinkageLocation
+    offset::TS
+end
+
+GrandMeanLocation(; offset=0.0) = GrandMeanLocation(offset)
+
+fit(loc::GrandMeanLocation, ss) = mean( response(ss) .- loc.offset)
+
+
+function predict(loc::GrandMeanLocation, fitted_loc, ss::NormalSamples)
+    zeros(ss) .+ loc.offset .+ fitted_loc
+end
+
+function leverage(loc::GrandMeanLocation, fitted_loc, ss)
+    1/length(ss)
+end
+
+
+# GrandMeanLocation(μs) = GrandMeanLocation(μs, nothing)
+# GrandMeanLocation() = GrandMeanLocation(0.0)
+# GrandMeanLocation(::Type{AnalyticWeights}) = GrandMeanLocation(0.0, AnalyticWeights)
+#
+# weights(gm::GrandMeanLocation) = gm.ws
+# dof(gm::GrandMeanLocation) = 1
+#
+# # TODO: Allow varying μ here as well
+# function AnalyticWeights(s::NormalSamples)
+#     AnalyticWeights(1 ./ s.σ.^2)
+# end
+#
+# function fit(loc::GrandMeanLocation, s::NormalSamples, ::Type{AnalyticWeights})
+#     mean(s.Z, AnalyticWeights(s))
+# end
+#
+# function fit(loc::GrandMeanLocation,
+#                   s::Union{HomoskedasticNormalSamples, StandardNormalSamples}, ws)
+#     mean(s.Zs)
+# end
+
+
 
 # function dof_residual(ebloc::EBayesShrinkageLocation, fitted_loc, ss::EBayesSamples)
 #     length(ss) - dof(ebloc, fitted_loc)

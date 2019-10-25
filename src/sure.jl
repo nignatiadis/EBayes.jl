@@ -16,8 +16,12 @@ mutable struct FittedEBayes{SS,
     report::O #Typically nothing or result from Optim.jl
 end
 
-fitted_params(feb::FittedEBayes) = (feb.fitted_obj, fitted_loc)
+MLJBase.fitted_params(feb::FittedEBayes) = (feb.fitted_obj, feb.fitted_loc)
 
+function predict(feb::FittedEBayes)
+    prior_μs = predict(feb.loc, feb.fitted_loc, feb.ss)
+    predict(feb.predictor, feb.fitted_obj, prior_μs, feb.ss)
+end
 
 # TODO: add nicer default interface
 
@@ -34,6 +38,9 @@ function fit(predictor::Normal, method::SURE, loc::EBayesShrinkageLocation, ss::
                  opt_res)
 end
 
+function fit(predictor::Normal, method::SURE, ss::NormalSamples; optimizer=IPNewton())
+    fit(predictor, method, GrandMeanLocation(), ss; optimizer=optimizer)
+end
 
 #------------------------------------------------------------------------------------------
 #----------------- Normal prior with with SURE --------------------------------------------
