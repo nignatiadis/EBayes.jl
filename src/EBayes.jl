@@ -32,10 +32,14 @@ import Distributions:location
 using MLJBase
 import MLJBase: fitted_params
 
+using NLSolversBase
+using Optim
+
 include("ebayes_types.jl")
 include("ebayes_samples.jl")
 include("predict.jl")
-#include("sure.jl")
+include("shrinkage_locations.jl")
+include("sure.jl")
 include("simulations.jl")
 
 export EBayesSample,
@@ -44,6 +48,8 @@ export EBayesSample,
        AbstractNormalSamples,
        NormalSamples,
        NormalEBayesSimulationResult,
-       var #reexport
+       var, #reexport
+       FixedLocation,
+       SURE
 
 end # module

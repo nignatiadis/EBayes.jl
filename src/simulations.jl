@@ -15,7 +15,7 @@ end
 #predict(method, sim_res::NormalEBayesSimulationResult) = predict(method, sim_res.ss)
 
 
-struct NormalNormalSimulation
+struct NormalNormalSimulation <: EBayesSimulation
    n::Int64
    prior_μ::Float64
    A::Float64
@@ -25,7 +25,7 @@ end
 function NormalNormalSimulation(;n=1000,
                                  prior_μ=0.0,
                                  A=1.0,
-                                 σ)
+                                 σ=1.0)
    NormalNormalSimulation(n, prior_μ, A, σ)
 end
 
@@ -36,9 +36,9 @@ function rand(x::NormalNormalSimulation)
    σ = x.σ
    prior_μ = x.prior_μ
 
-   μs = randn(n).*sqrt(A) .+ prior
+   μs = randn(n).*sqrt(A) .+ prior_μ
    Zs = randn(n).*σ .+ μs
-   σs = repeat([σ], n)
+   σs = fill(σ, n)
 
    NormalEBayesSimulationResult(NormalSamples(Zs,σs), μs, x)
 end

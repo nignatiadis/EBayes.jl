@@ -31,6 +31,8 @@ function NormalSamples(Zs::AbstractVector{T}, σs::AbstractVector{T}) where T
 end
 
 response(ss::NormalSamples) = ss.Z
+Statistics.var(ss::NormalSamples) = ss.σ .^ 2
+
 zeros(ss::NormalSamples) = zeros(eltype(response(ss)), length(ss))
 
 
