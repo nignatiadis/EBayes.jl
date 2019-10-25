@@ -162,9 +162,10 @@ function rand(sim::FriedmanFayHerriotSimulation)
    n = sim.n
    σ = sim.σ
    A_sqrt = sim.A_sqrt
-   X = DataFrame(rand(Uniform(0,1), n, p))
+   X = rand(Uniform(0,1), n, p)
    ms = map(friedman_reg, eachrow(X))
    μs = ms .+ rand(Normal(0, A_sqrt), n)
    Zs = μs .+ rand(Normal(0, σ), n)
+   X = MLJBase.table(X)
    CovariateNormalEBayesSimulationResult(NormalSamples(Zs,fill(σ, n)), X, ms, μs, sim)
 end
