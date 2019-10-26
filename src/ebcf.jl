@@ -35,7 +35,7 @@ function fit(ebcf::EBayesCrossFit, Xs, ss::NormalSamples; verbosity=0)
     eb_preds = copy(response(ss))
     reg_preds = copy(response(ss))
 
-    kf = kfolds(1:length(ss), num_folds)
+    kf = kfolds(shuffleobs(1:length(ss)), num_folds)
 
     reg_fits = nothing # for now
     eb_fits = []

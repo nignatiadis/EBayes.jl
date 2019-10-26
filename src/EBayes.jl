@@ -31,7 +31,7 @@ import Distributions:location
 
 import MLJBase, MLJ # to avoid conflicts
 import MLJBase:predict_mean
-import MLDataPattern:kfolds,FoldsView
+import MLDataPattern:kfolds,FoldsView,shuffleobs
 using NLSolversBase
 using Optim
 
