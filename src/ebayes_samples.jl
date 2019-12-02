@@ -38,7 +38,7 @@ zero(s::NormalSample{T}) where T = zero(T)
 # types for a single EB sample
 #---------------------------------------
 const EBayesSamples = AbstractArray{EBS} where EBS <: EBayesSample
-const AbstractNormalSamples = AbstractArray{NS} where NS <: NormalSample
+
 const NormalSamples{T} = StructArray{NormalSample{T}} where T
 
 function NormalSamples(Zs::AbstractVector{T}, σs::AbstractVector{T}) where T
@@ -48,6 +48,38 @@ end
 response(ss::NormalSamples) = ss.Z
 Statistics.var(ss::NormalSamples) = ss.σ .^ 2
 
-zeros(ss::NormalSamples) = zeros(eltype(response(ss)), length(ss))
+
+"""
+    StandardNormalSample(Z)
+
+A observed sample ``Z`` drawn from a Normal distribution with known variance ``\\sigma^2 =1``.
+
+```math
+Z \\sim \\mathcal{N}(\\mu, 1)
+```
+
+``\\mu`` is assumed unknown. The type above is used when the sample ``Z`` is to be used for estimation or inference of ``\\mu``.
+
+```julia
+StandardNormalSample(0.5)          #Z=0.5
+```
+"""
+struct StandardNormalSample{T <: Number} <: EBayesSample{T}
+    Z::T
+end
+
+response(s::StandardNormalSample) = s.Z
+Statistics.var(s::StandardNormalSample) = 1
+
+eltype(s::StandardNormalSample{T}) where T = T
+zero(s::StandardNormalSample{T}) where T = zero(T)
 
 
+
+const AbstractNormalSamples = AbstractArray{NS} where NS <: Union{NormalSample,
+                                                                  StandardNormalSample}
+
+response(ss::AbstractNormalSamples) = response.(ss)
+Statistics.var(ss::AbstractNormalSamples) = var.(ss)
+
+zeros(ss::AbstractNormalSamples) = zeros(eltype(response(ss)), length(ss))

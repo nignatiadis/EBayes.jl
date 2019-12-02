@@ -12,6 +12,11 @@ ns = NormalSample(1.0)
 @test zero(ns) == 0
 @test var(ns) == 1.0
 
+standard_n = StandardNormalSample(1.0)
+@test var(standard_n) == var(ns)
+@test eltype(standard_n) == eltype(1.0)
+@test zero(standard_n) == 0
+
 ns2 = NormalSample(1.0, 1)
 @test ns == ns2
 
@@ -32,6 +37,12 @@ nss2 = NormalSamples(nss.Z,nss.σ)
 @test zeros(nss) == zeros(Float64, 2)
 @test length(nss) == 2
 
+tmp_zs = rand(10)
+standard_ns = StandardNormalSample.(tmp_zs)
+@test isa(standard_ns, EBayesSamples)
+@test isa(standard_ns, AbstractNormalSamples)
+
+@test response(standard_ns) == tmp_zs
 
 ## test predictions
 

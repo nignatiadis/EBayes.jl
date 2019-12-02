@@ -45,6 +45,7 @@ include("simulations.jl")
 
 export EBayesSample,
        NormalSample,
+       StandardNormalSample,
        EBayesSamples,
        AbstractNormalSamples,
        NormalSamples,
