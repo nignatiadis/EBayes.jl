@@ -27,7 +27,7 @@ import StatsBase:response
 using Statistics
 import Statistics:var
 
-import Distributions:location
+import Distributions:location, RealInterval, support
 
 import MLJBase, MLJ # to avoid conflicts
 import MLJBase:predict_mean

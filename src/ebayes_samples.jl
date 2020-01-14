@@ -2,6 +2,7 @@
 # types for a single EB sample
 #---------------------------------------
 abstract type EBayesSample{T<:Number} end
+abstract type AbstractNormalSample{T<:Number} <: EBayesSample{T} end
 
 """
     NormalSample(Z,σ)
@@ -18,7 +19,7 @@ Z \\sim \\mathcal{N}(\\mu, \\sigma^2)
 NormalSample(0.5, 1.0)          #Z=0.5, σ=1
 ```
 """
-struct NormalSample{T <: Number} <: EBayesSample{T}
+struct NormalSample{T <: Number} <: AbstractNormalSample{T}
     Z::T
     σ::T
 end
@@ -34,6 +35,8 @@ Statistics.var(s::NormalSample) = s.σ^2
 
 eltype(s::NormalSample{T}) where T = T
 zero(s::NormalSample{T}) where T = zero(T)
+support(ss::NormalSample) = RealInterval(-Inf, +Inf)
+
 #---------------------------------------
 # types for a single EB sample
 #---------------------------------------
@@ -64,7 +67,7 @@ Z \\sim \\mathcal{N}(\\mu, 1)
 StandardNormalSample(0.5)          #Z=0.5
 ```
 """
-struct StandardNormalSample{T <: Number} <: EBayesSample{T}
+struct StandardNormalSample{T <: Number} <: AbstractNormalSample{T}
     Z::T
 end
 
@@ -73,7 +76,7 @@ Statistics.var(s::StandardNormalSample) = 1
 
 eltype(s::StandardNormalSample{T}) where T = T
 zero(s::StandardNormalSample{T}) where T = zero(T)
-
+support(ss::StandardNormalSample) = RealInterval(-Inf, +Inf)
 
 
 const AbstractNormalSamples = AbstractArray{NS} where NS <: Union{NormalSample,
@@ -81,5 +84,14 @@ const AbstractNormalSamples = AbstractArray{NS} where NS <: Union{NormalSample,
 
 response(ss::AbstractNormalSamples) = response.(ss)
 Statistics.var(ss::AbstractNormalSamples) = var.(ss)
-
 zeros(ss::AbstractNormalSamples) = zeros(eltype(response(ss)), length(ss))
+
+
+
+
+
+# Poisson
+
+# Binomial
+
+# Replicated , ReplicatedArray
