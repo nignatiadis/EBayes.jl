@@ -104,6 +104,12 @@ We see that indeed the `EBayesCrossFit` method outperforms both baselines.
 NormalSample
 ```
 
-```@index
+## Example prior distributions
+
+```@docs
+iw_unimod, iw_bimod
 ```
 
+
+```@index
+```

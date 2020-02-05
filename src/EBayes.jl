@@ -41,6 +41,7 @@ include("predict.jl")
 include("shrinkage_locations.jl")
 include("sure.jl")
 include("ebcf.jl")
+include("example_priors.jl")
 include("simulations.jl")
 
 export EBayesSample,
