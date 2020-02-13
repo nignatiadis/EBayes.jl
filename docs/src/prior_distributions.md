@@ -4,6 +4,7 @@
 import Pkg
 Pkg.add("StatsPlots")
 Pkg.add("GR")
+ENV["GKSwstype"] = "100"
 using EBayes
 using StatsPlots
 using InteractiveUtils
