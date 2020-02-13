@@ -2,6 +2,7 @@ using Test
 using EBayes
 using Random
 using MLJBase
+import EBayes:fit
 
 Random.seed!(0)
 
@@ -50,4 +51,3 @@ sure_fit4 = fit(Normal(), SURE(), nss4)
 # Table 1, Sim4 from Kou et al.
 risk_sure_sim4 = 0.0051
 @test mean( (predict(sure_fit4) .- sim_res4.true_μs).^2) ≈ risk_sure_sim4 atol=0.001
-

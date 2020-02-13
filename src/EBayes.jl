@@ -1,21 +1,34 @@
 module EBayes
 
+using LaTeXStrings
+
 using Reexport
 
 @reexport using StatsBase
 @reexport using Distributions
 
+using NLSolversBase
+using Optim
+using RecipesBase
+
 using StructArrays
 
-import Base:length, rand, size
-import Base.Broadcast: broadcastable
-import Base: iterate,
-             getindex,
+import Base: eltype,
              firstindex,
+             getindex,
+             getproperty,
+             iterate,
              lastindex,
-             eltype,
+             length,
+             rand,
+             size,
              zero,
              zeros
+
+import Base.Broadcast: broadcastable
+
+import Distributions:location, RealInterval, support
+
 
 import StatsBase:predict,
                  fit,
@@ -27,13 +40,10 @@ import StatsBase:response
 using Statistics
 import Statistics:var
 
-import Distributions:location, RealInterval, support
 
 import MLJBase, MLJ # to avoid conflicts
 import MLJBase:predict_mean
 import MLDataPattern:kfolds,FoldsView,shuffleobs
-using NLSolversBase
-using Optim
 
 include("ebayes_types.jl")
 include("ebayes_samples.jl")

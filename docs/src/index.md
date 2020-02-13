@@ -1,5 +1,9 @@
 # EBayes.jl
 
+```@contents
+Depth=3
+```
+
 A package for empirical Bayes (EB) estimation in Julia. Currently the main functionality is estimation in the Gaussian compound decision problem in which we observe:
 
 ```math
@@ -15,8 +19,14 @@ A longer term goal of this package is to provide a unified interface for EB meth
 ## SURE EB estimator
 
 Let us generate toy data:
+```@setup run_ebcf
+import Pkg
+Pkg.add("MLJ")
+Pkg.add("MLJBase")
+Pkg.add("MLJModels")
+```
 
-```@example normal_normal
+```@example run_ebcf
 using Random
 Random.seed!(1)
 
@@ -29,14 +39,14 @@ nothing  # hide
 
 We first check the mean squared error if we try to estimate ``\mu_i`` by ``Z_i``:
 
-```@example normal_normal
+```@example run_ebcf
 using StatsBase
 mean( (μs - Zs).^2 )
 ```
 
 Instead let us use the Normal SURE method of [Xie, Kou, and Brown (2012)](https://doi.org/10.1080/01621459.2012.728154), which has been implemented in this package. To do this, we will first need to wrap the `Zs` and `σs` as `NormalSamples`.
 
-```@example normal_normal
+```@example run_ebcf
 using EBayes
 ss = NormalSamples(Zs, σs)
 sure_fit = fit(Normal(), SURE(), ss)
@@ -57,7 +67,7 @@ If the ``X_i``'s capture ``\mu_i`` perfectly, then a powerful machine learning m
 
 Continuing with our toy problem, let us simulate two-dimensional covariates; the first dimension is informative for ``\mu_i``, while the second is not.
 
-```@example normal_normal
+```@example run_ebcf
 using MLJ, MLJBase
 
 Xs1 = μs .+ randn(n)
@@ -68,7 +78,7 @@ nothing  # hide
 
 We now use MLJ to fit a model (here just ordinary least squares linear regression) and then use the model to predict the ``\mu_i``'s:
 
-```@example normal_normal
+```@example run_ebcf
 
 lin_mlj = MLJ.@load LinearRegressor pkg=GLM
 
@@ -85,7 +95,7 @@ We have seen two strong baselines: The empirical Bayes (SURE) method that utiliz
 
 Let us apply the `EBayesCrossFit` method in conjuction with the linear regression we used previously:
 
-```@example normal_normal
+```@example run_ebcf
 
 ebcf_lin = EBayesCrossFit(lin_mlj) # EBCF with linear regression
 ebcf_fit = fit(ebcf_lin, Xs, ss)   # fit EBCF
@@ -95,21 +105,3 @@ mean((ebcf_preds .- μs).^2)        # evaluate EBCF
 ```
 
 We see that indeed the `EBayesCrossFit` method outperforms both baselines.
-
-
-# API Reference
-## EBayes sample types
-
-```@docs
-NormalSample
-```
-
-## Example prior distributions
-
-```@docs
-iw_unimod, iw_bimod
-```
-
-
-```@index
-```
