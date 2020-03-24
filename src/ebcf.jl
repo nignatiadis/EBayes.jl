@@ -41,7 +41,7 @@ function fit(ebcf::EBayesCrossFit, Xs, ss::NormalSamples; verbosity=0)
     eb_fits = []
 
     # Initialize MLJ machine
-    mlj_mach = MLJ.machine(ebcf.model, Xs, response(ss))
+    mlj_mach = MLJBase.machine(ebcf.model, Xs, response(ss))
 
     for (train_idx, test_idx) in kf
         fit!(mlj_mach, rows=train_idx, verbosity=verbosity)
