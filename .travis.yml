@@ -3,10 +3,10 @@ language: julia
 os:
   - linux
   - osx
-  - windows
 julia:
   - 1.2
   - 1.3
+  - 1.4
   - nightly
 jobs:
   include:
